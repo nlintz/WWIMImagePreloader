@@ -1,0 +1,82 @@
+<html ng-app="example">
+<head>
+  <style>canvas{margin:auto auto; display:block;}; </style>
+  <style>button{margin:0 auto 15px auto; display:block;}; </style>
+  <script src='../bower_components/jquery/dist/jquery.min.js'></script>
+  <script src='../bower_components/angular/angular.js'></script>
+  <script src='../bower_components/angular-mocks/angular-mocks.js'></script>
+  <script src='../lib/wwim-imagepreloader.js'></script>
+</head>
+<body ng-controller="exampleController">
+<button ng-click="updatePicture()">Click Me To Change Picture</button>
+<script type="text/javascript">
+
+  var module = angular.module('example', ['wwwim-imagepreloader']);
+
+  module.controller('exampleController', ['ImagePreloaderService', '$scope', function testController(imagePreloaderService, $scope) {
+
+      var imageSources = ['http://i.istockimg.com/cms/resources/images/HomePage/Tiles/tile_people.jpg',
+        'http://i.istockimg.com/cms/resources/images/HomePage/Tiles/tile_technology.jpg', 
+        'http://i.istockimg.com/cms/resources/images/HomePage/Tiles/tile_summer.jpg',
+        'http://i.istockimg.com/cms/resources/images/HomePage/Tiles/tile_lifestyle.jpg',
+        'http://i.istockimg.com/cms/resources/images/HomePage/Tiles/tile_travel.jpg'
+      ];
+      var images = []; // Array of image objects
+      var canvas = createCanvas(); // Canvas instance
+      var context = canvas.getContext("2d"); // Canvas context
+      $('body').append(canvas);
+
+      $scope.currentImageIndex = -1;
+      
+      var images_promise = imagePreloaderService.preload(imageSources);
+      images_promise.then(function (data) { // Resolve promise. data = array of images
+        $scope.currentImageIndex += 1;
+        images = images.concat(data);
+      });
+
+      $scope.updatePicture = function () {
+        $scope.currentImageIndex = ($scope.currentImageIndex + 1) % images.length;
+      };
+
+      $scope.$watch('currentImageIndex', function (newVal, oldVal) {
+        if (newVal > -1 && newVal < images.length) {
+          var image = images[$scope.currentImageIndex];
+          canvas = scaleCanvas(canvas, image.width, image.height);
+          context.drawImage(image, 0, 0);
+        };
+      });
+    }]);
+
+  // Helpers which create and modify canvas objects
+  function createCanvas (w, h) {
+    var w = w || 500;
+    var h = h || 500;
+
+    var canvas = document.createElement('canvas');
+    scaleCanvas(canvas, w, h);
+    return canvas;
+  };
+
+  function scaleCanvas(canvas, w, h) {
+    canvas.width = w;
+    canvas.height = h;
+    canvas.style.width = w + "px";
+    canvas.style.height = h + "px";
+    return canvas;
+  }
+
+  // Method for demonstration that all images are loaded after promise resolves
+  function drawAllImages(images) {
+    angular.forEach(images, function (image, imageIndex) {
+      var canvas = createCanvas();
+      canvas = scaleCanvas(canvas, image.width, image.height);
+      var context = canvas.getContext("2d");
+      context.drawImage(image, 0, 0);
+      $('body').append(canvas);
+    });
+  };
+
+</script>
+
+</body>
+</html>

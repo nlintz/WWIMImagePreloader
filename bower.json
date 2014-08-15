@@ -1,0 +1,24 @@
+{
+  "name": "WWIMImagePreloader",
+  "version": "0.0.0",
+  "authors": [
+    "Nathan Lintz <nlintz@gmail.com>"
+  ],
+  "description": "Image preloader for what would I meme",
+  "main": "lib/wwim-imagepreloader.js",
+  "keywords": [
+    "wwim"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular": "~1.0.8",
+    "angular-mocks": "~1.0.8"
+  }
+}

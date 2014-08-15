@@ -20,5 +20,9 @@
   "devDependencies": {
     "angular": "~1.0.8",
     "angular-mocks": "~1.0.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nlintz/WWIMImagePreloader.git"
   }
 }

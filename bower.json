@@ -4,6 +4,7 @@
   "authors": [
     "Nathan Lintz <nlintz@gmail.com>"
   ],
+  "homepage": "https://github.com/nlintz/WWIMImagePreloader",
   "description": "Image preloader for what would I meme",
   "main": "lib/wwim-imagepreloader.js",
   "keywords": [
